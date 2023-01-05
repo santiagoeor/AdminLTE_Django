@@ -2,19 +2,42 @@ from django.shortcuts import render, HttpResponse, redirect
 from ventas.models import Producto
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-def login(request):
+def login_venta(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('admin')
+        else:
+            messages.warning(request, 'Has ingresado algo mal')
+
+
     return render(request, 'login.html')
 
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+@login_required(login_url="login")
 def adminlte(request):
     return render(request, 'views_admin/admin.html')
 
+@login_required(login_url="login")
 def registproducts(request):
     
     return render(request, 'views_admin/regist_product.html')
 
+@login_required(login_url="login")
 def listproducts(request):
 
     busqueda = request.GET.get('txtBuscar')
@@ -30,6 +53,7 @@ def listproducts(request):
         'productos': productos
     })
 
+@login_required(login_url="login")
 def guardar(request):
     if request.method == 'POST':
 
@@ -61,6 +85,7 @@ def guardar(request):
         messages.success(request, 'No se a podido registrar')
         return redirect('productos')
 
+@login_required(login_url="login")
 def borrar_producto(request, id):
     producto = Producto.objects.get(pk=id)
     producto.delete()
@@ -68,6 +93,7 @@ def borrar_producto(request, id):
     messages.success(request, 'Ha sido eliminado')
     return redirect('lisproduct')
 
+@login_required(login_url="login")
 def editar_producto(request, id):
 
     producto = Producto.objects.get(pk=id)
@@ -76,6 +102,7 @@ def editar_producto(request, id):
         'producto': producto
     })
 
+@login_required(login_url="login")
 def editar(request):
 
     if request.method == 'POST':

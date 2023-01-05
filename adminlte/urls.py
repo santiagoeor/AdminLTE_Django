@@ -18,13 +18,14 @@ from django.urls import path
 from ventas import views
 
 urlpatterns = [
-    path('', views.login, name="login"),
+    path('', views.login_venta, name="login"),
     path('admin/', admin.site.urls),
-    path('admin', views.adminlte, name="admin"),
+    path('admind/', views.adminlte, name="admin"),
     path('regisproduct', views.registproducts, name="productos"),
     path('listproducts', views.listproducts, name="lisproduct"),
     path('save/', views.guardar, name="save"),
     path('borrar-producto/<int:id>', views.borrar_producto, name="borrar"),
     path('editar_produ/<int:id>', views.editar_producto, name="editar"),
-    path('editarp', views.editar, name="edit")
+    path('editarp', views.editar, name="edit"),
+    path('logout/', views.logout_user, name="logout"),
 ]

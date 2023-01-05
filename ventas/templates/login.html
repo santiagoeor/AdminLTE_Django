@@ -29,17 +29,24 @@
         <div class="login-logo">
             <a href="../index.php"><b>Ven</b>tas</a>
         </div>
-        <div id="resultado">
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
 
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg"></p>
-                 <div id="login"></div>
-                <form id="frmjax" method="POST">
+                 
+                <form method="POST" action="">
+                    {% csrf_token %}
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Correo" id="usea" name="usea">
+                        <input type="text" class="form-control" placeholder="Correo" id="usea" name="username">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -47,7 +54,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Contraseña" id="pasea" name="pasea">
+                        <input type="password" class="form-control" placeholder="Contraseña" id="pasea" name="password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -66,7 +73,8 @@
                         <!-- /.col -->
                         <div class="col-4">
                             {% comment %} <button id="btnguardar" class="btn btn-primary btn-block">Iniciar</button> {% endcomment %}
-                            <a href="{% url 'admin' %}" class="btn btn-primary btn-block">Inicio</a>
+                            {% comment %} <a href="{% url 'admin' %}" class="btn btn-primary btn-block">Inicio</a> {% endcomment %}
+                            <input type="submit" value="Login" class="btn btn-primary btn-block" />
                         </div>
                         <!-- /.col -->
                     </div>
