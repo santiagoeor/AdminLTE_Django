@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from ventas.formsproducts import FormProducto
 
 # Create your views here.
 
@@ -33,11 +34,6 @@ def adminlte(request):
     return render(request, 'views_admin/admin.html')
 
 @login_required(login_url="login")
-def registproducts(request):
-    
-    return render(request, 'views_admin/regist_product.html')
-
-@login_required(login_url="login")
 def listproducts(request):
 
     busqueda = request.GET.get('txtBuscar')
@@ -55,35 +51,39 @@ def listproducts(request):
 
 @login_required(login_url="login")
 def guardar(request):
+
     if request.method == 'POST':
-
-        refer = request.POST['txt_refer']
-        nombre = request.POST['txt_Nombre']
-        descripcorta = request.POST['txt_Descor']
-        descripcion = request.POST['txt_Descri']
-        Stock = request.POST['txt_cantEx']
-        valor = request.POST['txt_vlrCom']
-
-        # if refer and Stock and valor == int:  
-        producto = Producto(
+        formproduct = FormProducto(request.POST)
+        if formproduct.is_valid():
+            data_form = formproduct.cleaned_data
+            #datos del formulario
+            refer = data_form.get('txt_refer')
+            nombre = data_form.get('txt_Nombre')
+            descripcorta = data_form.get('txt_Descor')
+            descripcion = data_form.get('txt_Descri')
+            Stock = data_form.get('txt_cantEx')
+            valor = data_form.get('txt_vlrCom')
+            #envindolos a la base de datos
+            producto = Producto(
             referencia = refer,
             producto = nombre,
             descricorta = descripcorta,
             descripcion = descripcion,
             stock = Stock,
             valorcom = valor,
-        )
+            )
 
-        producto.save()
-            
-        messages.success(request, 'Producto registrado')
-        return redirect('productos')
-        # else:
-        #     messages.success(request, 'Por favor digitar numeros')
-            # return redirect('productos')
+            producto.save()
+            messages.success(request, 'Producto registrado')
+            return redirect('save')
+
     else:
-        messages.success(request, 'No se a podido registrar')
-        return redirect('productos')
+        formproduct = FormProducto()
+        
+
+    return render(request, 'views_admin/regist_product.html', {
+    'formu': formproduct
+    })
 
 @login_required(login_url="login")
 def borrar_producto(request, id):

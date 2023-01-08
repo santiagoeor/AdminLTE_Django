@@ -21,7 +21,6 @@ urlpatterns = [
     path('', views.login_venta, name="login"),
     path('admin/', admin.site.urls),
     path('admind/', views.adminlte, name="admin"),
-    path('regisproduct', views.registproducts, name="productos"),
     path('listproducts', views.listproducts, name="lisproduct"),
     path('save/', views.guardar, name="save"),
     path('borrar-producto/<int:id>', views.borrar_producto, name="borrar"),
