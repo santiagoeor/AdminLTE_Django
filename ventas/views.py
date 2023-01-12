@@ -97,10 +97,32 @@ def borrar_producto(request, id):
 def editar_producto(request, id):
 
     producto = Producto.objects.get(pk=id)
-
     return render(request, 'views_admin/edit_product.html', {
         'producto': producto
     })
+
+
+# def editar(request):
+
+#     if request.method == 'POST':
+#         Formproductoedit = FormProductoedit(request.POST)
+#         if Formproductoedit.is_valid():
+#             # data_form = Formproductoedit.cleaned_data
+#             # id = request.POST['txt_id']
+#             # # id = data_form.get('txt_id')
+#             # producto = Producto.objects.get(pk=id)
+#             # producto.referencia = data_form.get('txt_refer')
+#             # producto.producto = data_form.get('txt_Nombre')
+#             # producto.descricorta =data_form.get('txt_Descor') 
+#             # producto.descripcion =data_form.get('txt_Descri') 
+#             # producto.stock = data_form.get('txt_cantEx')
+#             # producto.valorcom =data_form.get('txt_vlrCom')
+
+#             # producto.save()
+#             return redirect('lisproduct')
+
+#     else:
+#         return redirect('save')
 
 @login_required(login_url="login")
 def editar(request):
@@ -120,5 +142,4 @@ def editar(request):
 
        return redirect('lisproduct')
     
-
 

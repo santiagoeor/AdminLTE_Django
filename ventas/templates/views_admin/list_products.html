@@ -148,7 +148,8 @@
                                         <td>{{ prosducto.valorcom }}</td>
                                         <td>
                                             <a href="{% url 'editar' id=prosducto.id %}" class="btn btn-primary">Editar</a>
-                                            <a href="{% url 'borrar' id=prosducto.id %}" class="btn btn-danger">Eliminar</a>
+                                            <a href="{% url 'borrar' id=prosducto.id %}" onclick="return confirm(`estas seguro de eliminar a {{ prosducto.producto }}`)" class="btn btn-danger">Eliminar</a>
+                                            {% comment %} <button type="submit" onclick="return confirm('¿Estás seguro de borrar este post?')">Eliminar</button> {% endcomment %}
                                         </td>
                                     </tr>
                                     {% endfor %}
