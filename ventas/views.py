@@ -140,6 +140,6 @@ def editar(request):
 
        producto.save()
 
+       messages.success(request, f'{producto.producto} actualizado')
        return redirect('lisproduct')
     
-
